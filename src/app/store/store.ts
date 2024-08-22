@@ -1,7 +1,10 @@
+import { gameScoreSlice } from '@/widgets/gameScore'
 import { configureStore } from '@reduxjs/toolkit'
 
 const store = configureStore({
-  reducer: {},
+  reducer: {
+    gameScore: gameScoreSlice.reducer,
+  },
 })
 
 export type RootState = ReturnType<typeof store.getState>
