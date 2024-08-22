@@ -1,9 +1,11 @@
+import { gameBoardSlice } from '@/widgets/gameBoard'
 import { gameScoreSlice } from '@/widgets/gameScore'
 import { configureStore } from '@reduxjs/toolkit'
 
 const store = configureStore({
   reducer: {
     gameScore: gameScoreSlice.reducer,
+    gameBoard: gameBoardSlice.reducer,
   },
 })
 

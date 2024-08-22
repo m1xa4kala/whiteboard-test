@@ -10,8 +10,15 @@ export const HomePage: React.FC = () => {
       <GameBoard
         width={600}
         height={600}
-        playerSettings={{ color: PlayerColor.blue, speed: 5, spellColor: PlayerColor.blue, fireRate: 1 }}
-        enemySettings={{ color: PlayerColor.red, speed: 5, spellColor: PlayerColor.red, fireRate: 1 }}
+        playerSettings={{
+          color: PlayerColor.blue,
+          speed: 5,
+          spellColor: PlayerColor.orange,
+          fireRate: 0.8,
+          spellSpeed: 4,
+          projectiles: [],
+        }}
+        enemySettings={{ color: PlayerColor.red, speed: 5, spellColor: PlayerColor.purple, fireRate: 0.2, spellSpeed: -4, projectiles: [] }}
       />
     </div>
   )
