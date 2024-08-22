@@ -1,1 +1,1 @@
-export {GameScore} from './ui/GameScore'
+export { GameScore } from './ui/GameScore'
