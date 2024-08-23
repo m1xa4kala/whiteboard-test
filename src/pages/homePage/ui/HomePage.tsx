@@ -1,25 +1,29 @@
 import React from 'react'
 import { GameBoard } from '@/widgets/gameBoard'
 import { GameScore } from '@/widgets/gameScore'
-import { PlayerColor } from '@/widgets/gameBoard'
+import { Color } from '@/widgets/gameBoard'
+import './HomePage.scss'
 
 export const HomePage: React.FC = () => {
   return (
-    <div>
+    <main className='home-page'>
       <GameScore />
       <GameBoard
         width={600}
         height={600}
         playerSettings={{
-          color: PlayerColor.blue,
-          speed: 5,
-          spellColor: PlayerColor.orange,
-          fireRate: 0.8,
-          spellSpeed: 4,
-          projectiles: [],
+          color: Color.blue,
+          velocity: 5,
+          spellColor: Color.orange,
+          fireRate: 1,
         }}
-        enemySettings={{ color: PlayerColor.red, speed: 5, spellColor: PlayerColor.purple, fireRate: 0.2, spellSpeed: -4, projectiles: [] }}
+        enemySettings={{
+          color: Color.red,
+          velocity: 5,
+          spellColor: Color.purple,
+          fireRate: 1,
+        }}
       />
-    </div>
+    </main>
   )
 }

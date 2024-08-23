@@ -1,12 +1,8 @@
-import { RootLayout } from './layouts/rootLayout'
 import { HomePage } from '@/pages/homePage'
+import './styles/index.scss'
 
 function App() {
-  return (
-    <RootLayout>
-      <HomePage />
-    </RootLayout>
-  )
+  return <HomePage />
 }
 
 export default App

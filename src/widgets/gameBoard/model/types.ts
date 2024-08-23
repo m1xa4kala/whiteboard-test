@@ -1,4 +1,4 @@
-export enum PlayerColor {
+export enum Color {
   orange = '#ff5531',
   red = '#ff1c1c',
   blue = '#1c61ff',
@@ -6,29 +6,24 @@ export enum PlayerColor {
   purple = '#cd1ecd',
 }
 
-export type Projectile = {
-  x: number
-  y: number
-}
-
-export type Settings = {
-  color: PlayerColor
-  speed: number
-  spellColor: PlayerColor
-  spellSpeed: number
+export type heroSettings = {
+  color: string
+  velocity: number
   fireRate: number
-  projectiles: Projectile[]
+  spellColor: Color
 }
 
 export type GameBoardProps = {
   width?: number
   height?: number
-  playerSettings: Settings
-  enemySettings: Settings
+  playerSettings: heroSettings
+  enemySettings: heroSettings
 }
 
 export type GameBoardState = {
   isGameStarted: boolean
-  playerColor: Settings['color']
-  enemyColor: Settings['color']
+  playerScore: number
+  enemyScore: number
+  playerColor: heroSettings['color']
+  enemyColor: heroSettings['color']
 }
