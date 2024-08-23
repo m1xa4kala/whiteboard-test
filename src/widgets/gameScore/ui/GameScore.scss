@@ -1,0 +1,15 @@
+.game-score {
+  width: 800px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 40px;
+
+  .player-score,
+  .enemy-score {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 24px;
+  }
+}

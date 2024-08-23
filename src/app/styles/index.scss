@@ -1,0 +1,27 @@
+@import 'reset.scss';
+
+@font-face {
+  font-family: 'Comfortaa', sans-serif;
+  src: url('../../shared/assets/fonts/Comfortaa-VariableFont_wght.ttf');
+}
+
+body {
+  font-family: 'Comfortaa', sans-serif;
+  font-size: 16px;
+}
+
+h1 {
+  font-size: 1.3em;
+}
+
+h2 {
+  font-size: 1.1em;
+}
+
+h3 {
+  font-size: 1em;
+}
+
+h4 {
+  font-size: 0.9em;
+}
