@@ -1,14 +1,8 @@
-export enum Color {
-  orange = '#ff5531',
-  red = '#ff1c1c',
-  blue = '#1c61ff',
-  green = '#1fea1f',
-  purple = '#cd1ecd',
-}
+import { Color } from '@/features/colorChange'
 
 export type heroSettings = {
-  color: string
-  velocity: number
+  color: Color
+  speed: number
   fireRate: number
   spellColor: Color
 }
@@ -24,6 +18,4 @@ export type GameBoardState = {
   isGameStarted: boolean
   playerScore: number
   enemyScore: number
-  playerColor: heroSettings['color']
-  enemyColor: heroSettings['color']
 }

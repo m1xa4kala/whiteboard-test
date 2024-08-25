@@ -1,13 +1,18 @@
 import React from 'react'
-import { GameBoardProps } from '../model/types'
+import { ColorChange, setPlayerMenuOpen, setEnemyMenuOpen } from '@/features/colorChange'
 import { useAppDispatch, useAppSelector } from '@/shared/lib'
 import { increaseEnemyScore, increasePlayerScore, setIsGameStarted } from '../model/gameBoardSlice'
+import { GameBoardProps } from '../model/types'
 import { Hero } from '../model/Hero'
+
 import './GameBoard.scss'
 
 export const GameBoard: React.FC<GameBoardProps> = ({ width = 600, height = 600, playerSettings, enemySettings }) => {
   const dispatch = useAppDispatch()
   const isGameStarted = useAppSelector((state) => state.gameBoard.isGameStarted)
+  const isPlayerMenuOpen = useAppSelector((state) => state.heroColor.playerMenuOpen)
+  const isEnemyMenuOpen = useAppSelector((state) => state.heroColor.enemyMenuOpen)
+  const boardRef = React.useRef<HTMLDivElement>(null)
   const canvasRef = React.useRef<HTMLCanvasElement>(null)
   const [mouseCoords, setMouseCoords] = React.useState<{
     x: number
@@ -38,6 +43,7 @@ export const GameBoard: React.FC<GameBoardProps> = ({ width = 600, height = 600,
         ctx.clearRect(0, 0, width, height)
         player.update(ctx, height)
         enemy.update(ctx, height)
+        console.log(player.projectiles, enemy.projectiles)
 
         for (let i = player.projectiles.length - 1; i >= 0; i--) {
           const projectile = player.projectiles[i]
@@ -94,20 +100,32 @@ export const GameBoard: React.FC<GameBoardProps> = ({ width = 600, height = 600,
       enemy.draw(ctx)
     }
     if (player.click(mouseCoords.x, mouseCoords.y) && !isGameStarted) {
-      console.log('click')
+      dispatch(setPlayerMenuOpen())
     }
     if (enemy.click(mouseCoords.x, mouseCoords.y) && !isGameStarted) {
-      console.log('click')
+      dispatch(setEnemyMenuOpen())
     }
-  }, [playerSettings, enemySettings, width, height, mouseCoords, isGameStarted])
+  }, [playerSettings, enemySettings, width, height, mouseCoords, isGameStarted, dispatch])
   return (
-    <div className='game-board'>
+    <div className='game-board' ref={boardRef}>
       <canvas className='game-board__canvas' ref={canvasRef} width={width} height={height} onClick={(e) => handleClick(e)} />
       <div className='game-board__buttons'>
         <button onClick={handleGameStart} disabled={isGameStarted}>
           Start
         </button>
         <button onClick={() => window.location.reload()}>Reset</button>
+      </div>
+      <div
+        className='popup'
+        style={{
+          display: isGameStarted ? 'none' : 'block',
+          position: 'absolute',
+          top: height / 2,
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+        }}
+      >
+        {isPlayerMenuOpen || isEnemyMenuOpen ? <ColorChange /> : null}
       </div>
     </div>
   )

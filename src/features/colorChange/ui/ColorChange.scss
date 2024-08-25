@@ -1,0 +1,30 @@
+.color-change {
+  width: 400px;
+  background: #2173df;
+  border-radius: 20px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  h2 {
+    margin-bottom: 20px;
+  }
+  h3 {
+    margin-bottom: 20px;
+  }
+  div {
+    display: flex;
+    gap: 20px;
+  }
+  select {
+    padding: 10px 20px;
+    border-radius: 5px;
+    height: 40px;
+    border: none;
+    background-color: #fff;
+    color: #2173df;
+    font-size: 16px;
+    cursor: pointer;
+  }
+}

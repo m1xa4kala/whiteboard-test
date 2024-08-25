@@ -30,4 +30,12 @@
       cursor: not-allowed;
     }
   }
+  .popup {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 24px;
+  }
 }

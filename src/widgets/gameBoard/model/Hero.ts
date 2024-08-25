@@ -1,11 +1,12 @@
 import { Spell } from './Spell'
-import { Color, heroSettings } from './types'
+import { heroSettings } from './types'
+import { Color } from '@/features/colorChange'
 
 export class Hero {
   position: { x: number; y: number }
   heroSettings: {
     color: string
-    velocity: number
+    speed: number
     fireRate: number
     spellColor: Color
   }
@@ -18,7 +19,7 @@ export class Hero {
     this.heroSettings = heroSettings
     this.spellVelocity = spellVelocity
     this.spellSize = 6
-    this.spellIncrease = heroSettings.fireRate
+    this.spellIncrease = 0.5 * heroSettings.fireRate
     this.projectiles = []
   }
 
@@ -44,9 +45,9 @@ export class Hero {
     this.draw(ctx)
 
     if (this.position.y + 30 > boardHeight || this.position.y - 30 < 0) {
-      this.heroSettings.velocity = -this.heroSettings.velocity
+      this.heroSettings.speed = -this.heroSettings.speed
     }
-    this.position.y += this.heroSettings.velocity
+    this.position.y += 1 * this.heroSettings.speed
 
     if (this.spellSize >= 18 || this.spellSize <= 4) {
       this.spellIncrease = -this.spellIncrease
