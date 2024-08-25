@@ -34,11 +34,11 @@ export const HeroSettings: React.FC<HeroSettingsProps> = ({ hero, speed, fireRat
       <h2>{hero.toUpperCase()} SETTINGS</h2>
       <div className='speed-settings'>
         <h3>Speed: </h3>
-        <input type='range' min={1} max={10} value={speed} step={1} onChange={(e) => handleChangeSpeed(e)} />
+        <input type='range' min={1} max={5} value={speed} step={0.2} onChange={(e) => handleChangeSpeed(e)} />
       </div>
       <div className='fire-rate-settings'>
         <h3>Fire rate: </h3>
-        <input type='range' min={1} max={10} value={fireRate} step={1} onChange={(e) => handleChangeFireRate(e)} />
+        <input type='range' min={1} max={5} value={fireRate} step={0.2} onChange={(e) => handleChangeFireRate(e)} />
       </div>
     </div>
   )

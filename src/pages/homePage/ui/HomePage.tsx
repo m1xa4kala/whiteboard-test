@@ -24,6 +24,7 @@ export const HomePage: React.FC = () => {
         <GameBoard
           width={600}
           height={600}
+          isGameStarted={isGameStarted}
           playerSettings={{
             color: playerColor,
             speed: playerSpeed,

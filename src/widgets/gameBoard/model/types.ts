@@ -12,6 +12,7 @@ export type GameBoardProps = {
   height?: number
   playerSettings: heroSettings
   enemySettings: heroSettings
+  isGameStarted: boolean
 }
 
 export type GameBoardState = {

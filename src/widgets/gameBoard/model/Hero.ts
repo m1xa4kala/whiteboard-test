@@ -14,6 +14,7 @@ export class Hero {
   spellSize: number
   spellIncrease: number
   projectiles: Spell[]
+  mousePosition: { x: number; y: number }
   constructor(position: { x: number; y: number }, heroSettings: heroSettings, spellVelocity: number) {
     this.position = { x: position.x, y: position.y }
     this.heroSettings = heroSettings
@@ -21,6 +22,7 @@ export class Hero {
     this.spellSize = 6
     this.spellIncrease = 0.5 * heroSettings.fireRate
     this.projectiles = []
+    this.mousePosition = { x: 0, y: 0 }
   }
 
   draw(ctx: CanvasRenderingContext2D) {
@@ -44,7 +46,7 @@ export class Hero {
   update(ctx: CanvasRenderingContext2D, boardHeight: number) {
     this.draw(ctx)
 
-    if (this.position.y + 30 > boardHeight || this.position.y - 30 < 0) {
+    if (this.position.y + 36 > boardHeight || this.position.y - 36 < 0) {
       this.heroSettings.speed = -this.heroSettings.speed
     }
     this.position.y += 1 * this.heroSettings.speed
@@ -57,7 +59,18 @@ export class Hero {
     if (this.spellSize <= 4) {
       this.projectiles.push(new Spell({ x: this.position.x, y: this.position.y }, this.heroSettings.spellColor, this.spellVelocity))
     }
+
+    const distance = Math.hypot(this.position.x - this.mousePosition.x, this.position.y - this.mousePosition.y)
+    if (distance <= 36 && distance >= 30) {
+      if (this.mousePosition.y > this.position.y && this.heroSettings.speed > 0) {
+        this.heroSettings.speed = -this.heroSettings.speed
+      }
+      if (this.mousePosition.y < this.position.y && this.heroSettings.speed < 0) {
+        this.heroSettings.speed = -this.heroSettings.speed
+      }
+    }
   }
+
   click(mouseX: number, mouseY: number) {
     const distance = Math.hypot(this.position.x - mouseX, this.position.y - mouseY)
     if (distance < 32) {
