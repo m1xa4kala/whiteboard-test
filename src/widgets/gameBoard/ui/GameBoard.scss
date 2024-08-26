@@ -4,6 +4,8 @@
   align-items: center;
   justify-content: center;
   .game-board__canvas {
+    width: 600px;
+    height: 600px;
     border: 2px solid rgb(33, 115, 223);
     margin-bottom: 20px;
     box-shadow:

@@ -14,6 +14,7 @@ export const GameBoard: React.FC<GameBoardProps> = ({ width = 600, height = 600,
   const boardRef = React.useRef<HTMLDivElement>(null)
   const canvasRef = React.useRef<HTMLCanvasElement>(null)
   const animationIDRef = React.useRef<number>(0)
+  const devicePixelRatio = window.devicePixelRatio || 1
   const [mouseClickCoords, setMouseClickCoords] = React.useState<{
     x: number
     y: number
@@ -119,8 +120,8 @@ export const GameBoard: React.FC<GameBoardProps> = ({ width = 600, height = 600,
       <canvas
         className='game-board__canvas'
         ref={canvasRef}
-        width={width}
-        height={height}
+        width={width * devicePixelRatio}
+        height={height * devicePixelRatio}
         onClick={isGameStarted ? () => null : (e) => handleClick(e)}
       />
       <div className='game-board__buttons'>
