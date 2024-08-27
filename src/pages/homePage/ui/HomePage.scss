@@ -9,3 +9,27 @@
     gap: 40px;
   }
 }
+
+@media screen and (max-width: 800px) {
+  .home-page {
+    .game-board-container {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      grid-template-rows: 1fr auto;
+      gap: 20px;
+    }
+    .game-board {
+      grid-column: 1 / 3;
+      grid-row: 1;
+    }
+    .player-settings {
+      grid-column: 1 / 2;
+      grid-row: 2;
+    }
+
+    .enemy-settings {
+      grid-column: 2 / 3;
+      grid-row: 2;
+    }
+  }
+}

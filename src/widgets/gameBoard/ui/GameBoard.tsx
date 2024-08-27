@@ -7,14 +7,15 @@ import { Hero } from '../model/Hero'
 
 import './GameBoard.scss'
 
-export const GameBoard: React.FC<GameBoardProps> = ({ width = 600, height = 600, isGameStarted, playerSettings, enemySettings }) => {
+export const GameBoard: React.FC<GameBoardProps> = ({ isGameStarted, playerSettings, enemySettings, canvasWidth, canvasHeight }) => {
   const dispatch = useAppDispatch()
   const isPlayerMenuOpen = useAppSelector((state) => state.heroColor.playerMenuOpen)
   const isEnemyMenuOpen = useAppSelector((state) => state.heroColor.enemyMenuOpen)
   const boardRef = React.useRef<HTMLDivElement>(null)
   const canvasRef = React.useRef<HTMLCanvasElement>(null)
   const animationIDRef = React.useRef<number>(0)
-  const devicePixelRatio = window.devicePixelRatio || 1
+  const width = canvasWidth
+  const height = canvasHeight
   const [mouseClickCoords, setMouseClickCoords] = React.useState<{
     x: number
     y: number
@@ -28,11 +29,16 @@ export const GameBoard: React.FC<GameBoardProps> = ({ width = 600, height = 600,
     const canvas = canvasRef.current
     const ctx = canvas?.getContext('2d')
     const rect = canvas?.getBoundingClientRect()
-
-    const playerY = Math.random() * (height - 60) + 30
-    const playerX = 40
-    const enemyY = Math.random() * (height - 60) + 30
-    const enemyX = width - 40
+    let playerY = 100
+    let playerX = 40
+    let enemyY = 100
+    let enemyX = 400
+    if (width && height) {
+      playerY = Math.random() * (height - 60) + 30
+      playerX = 40
+      enemyY = Math.random() * (height - 60) + 30
+      enemyX = width - 40
+    }
 
     const player = new Hero({ x: playerX, y: playerY }, playerSettings, 10)
     const enemy = new Hero({ x: enemyX, y: enemyY }, enemySettings, -10)
@@ -50,9 +56,9 @@ export const GameBoard: React.FC<GameBoardProps> = ({ width = 600, height = 600,
       animationIDRef.current = window.requestAnimationFrame(renderer)
 
       if (ctx) {
-        ctx.clearRect(0, 0, width, height)
-        player.update(ctx, height)
-        enemy.update(ctx, height)
+        ctx.clearRect(0, 0, width!, height!)
+        player.update(ctx, height!)
+        enemy.update(ctx, height!)
 
         for (let i = player.projectiles.length - 1; i >= 0; i--) {
           const projectile = player.projectiles[i]
@@ -65,7 +71,7 @@ export const GameBoard: React.FC<GameBoardProps> = ({ width = 600, height = 600,
             dispatch(increasePlayerScore())
           }
 
-          if (projectile.position.x > height) {
+          if (projectile.position.x > height!) {
             player.projectiles.splice(i, 1)
           }
         }
@@ -118,10 +124,10 @@ export const GameBoard: React.FC<GameBoardProps> = ({ width = 600, height = 600,
   return (
     <div className='game-board' ref={boardRef}>
       <canvas
-        className='game-board__canvas'
+        width={width}
+        height={height}
         ref={canvasRef}
-        width={width * devicePixelRatio}
-        height={height * devicePixelRatio}
+        className='game-board__canvas'
         onClick={isGameStarted ? () => null : (e) => handleClick(e)}
       />
       <div className='game-board__buttons'>
@@ -137,7 +143,7 @@ export const GameBoard: React.FC<GameBoardProps> = ({ width = 600, height = 600,
         style={{
           display: isGameStarted ? 'none' : 'block',
           position: 'absolute',
-          top: height / 2,
+          top: height! / 2,
           left: '50%',
           transform: 'translate(-50%, -50%)',
         }}

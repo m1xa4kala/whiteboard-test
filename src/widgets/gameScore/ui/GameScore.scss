@@ -13,3 +13,13 @@
     font-size: 24px;
   }
 }
+
+@media screen and (max-width: 800px) {
+  .game-score {
+    width: 100%;
+    .player-score,
+    .enemy-score {
+      font-size: 18px;
+    }
+  }
+}

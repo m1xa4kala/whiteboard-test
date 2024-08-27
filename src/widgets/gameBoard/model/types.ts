@@ -8,14 +8,16 @@ export type heroSettings = {
 }
 
 export type GameBoardProps = {
-  width?: number
-  height?: number
+  canvasWidth: number
+  canvasHeight: number
   playerSettings: heroSettings
   enemySettings: heroSettings
   isGameStarted: boolean
 }
 
 export type GameBoardState = {
+  canvasWidth: number
+  canvasHeight: number
   isGameStarted: boolean
   playerScore: number
   enemyScore: number
