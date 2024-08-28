@@ -10,14 +10,16 @@ export class Hero {
     fireRate: number
     spellColor: Color
   }
+  heroRadius: number
   spellVelocity: number
   spellSize: number
   spellIncrease: number
   projectiles: Spell[]
   mousePosition: { x: number; y: number }
-  constructor(position: { x: number; y: number }, heroSettings: heroSettings, spellVelocity: number) {
+  constructor(position: { x: number; y: number }, heroSettings: heroSettings, spellVelocity: number, heroRadius: number) {
     this.position = { x: position.x, y: position.y }
     this.heroSettings = heroSettings
+    this.heroRadius = heroRadius
     this.spellVelocity = spellVelocity
     this.spellSize = 6
     this.spellIncrease = 0.5 * heroSettings.fireRate
@@ -26,9 +28,8 @@ export class Hero {
   }
 
   draw(ctx: CanvasRenderingContext2D) {
-    const radius = 30
     ctx.beginPath()
-    ctx.arc(this.position.x, this.position.y, radius, 0, Math.PI * 2, true)
+    ctx.arc(this.position.x, this.position.y, this.heroRadius, 0, Math.PI * 2, true)
     ctx.lineWidth = 4
     ctx.strokeStyle = this.heroSettings.color
     ctx.stroke()
@@ -46,7 +47,7 @@ export class Hero {
   update(ctx: CanvasRenderingContext2D, boardHeight: number) {
     this.draw(ctx)
 
-    if (this.position.y + 36 > boardHeight || this.position.y - 36 < 0) {
+    if (this.position.y + this.heroRadius + 4 > boardHeight || this.position.y - this.heroRadius - 4 < 0) {
       this.heroSettings.speed = -this.heroSettings.speed
     }
     this.position.y += 1 * this.heroSettings.speed
@@ -61,7 +62,7 @@ export class Hero {
     }
 
     const distance = Math.hypot(this.position.x - this.mousePosition.x, this.position.y - this.mousePosition.y)
-    if (distance <= 36 && distance >= 30) {
+    if (distance <= this.heroRadius + 2 && distance >= this.heroRadius - 2) {
       if (this.mousePosition.y > this.position.y && this.heroSettings.speed > 0) {
         this.heroSettings.speed = -this.heroSettings.speed
       }
@@ -73,7 +74,7 @@ export class Hero {
 
   click(mouseX: number, mouseY: number) {
     const distance = Math.hypot(this.position.x - mouseX, this.position.y - mouseY)
-    if (distance < 32) {
+    if (distance < this.heroRadius + 2) {
       return true
     }
   }

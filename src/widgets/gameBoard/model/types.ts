@@ -16,8 +16,6 @@ export type GameBoardProps = {
 }
 
 export type GameBoardState = {
-  canvasWidth: number
-  canvasHeight: number
   isGameStarted: boolean
   playerScore: number
   enemyScore: number

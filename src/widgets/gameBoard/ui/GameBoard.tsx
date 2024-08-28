@@ -11,11 +11,8 @@ export const GameBoard: React.FC<GameBoardProps> = ({ isGameStarted, playerSetti
   const dispatch = useAppDispatch()
   const isPlayerMenuOpen = useAppSelector((state) => state.heroColor.playerMenuOpen)
   const isEnemyMenuOpen = useAppSelector((state) => state.heroColor.enemyMenuOpen)
-  const boardRef = React.useRef<HTMLDivElement>(null)
   const canvasRef = React.useRef<HTMLCanvasElement>(null)
   const animationIDRef = React.useRef<number>(0)
-  const width = canvasWidth
-  const height = canvasHeight
   const [mouseClickCoords, setMouseClickCoords] = React.useState<{
     x: number
     y: number
@@ -23,31 +20,36 @@ export const GameBoard: React.FC<GameBoardProps> = ({ isGameStarted, playerSetti
     x: 0,
     y: 0,
   })
+  const pixelRatio = window.devicePixelRatio || 1
+  const width = pixelRatio * canvasWidth
+  const height = pixelRatio * canvasHeight
+  const heroRadius = canvasWidth > 800 ? 40 * pixelRatio : 20 * pixelRatio
 
   const handleGameStart = () => {
     dispatch(setIsGameStarted(true))
     const canvas = canvasRef.current
     const ctx = canvas?.getContext('2d')
     const rect = canvas?.getBoundingClientRect()
-    let playerY = 100
-    let playerX = 40
-    let enemyY = 100
-    let enemyX = 400
+    const playerPosition = { x: 0, y: 0 }
+    const enemyPosition = { x: 0, y: 0 }
     if (width && height) {
-      playerY = Math.random() * (height - 60) + 30
-      playerX = 40
-      enemyY = Math.random() * (height - 60) + 30
-      enemyX = width - 40
+      const maxY = height - heroRadius - 10 * pixelRatio
+      const minY = heroRadius + 10 * pixelRatio
+      playerPosition.y = Math.floor(Math.random() * maxY) + minY
+      playerPosition.x = heroRadius + 10 * pixelRatio
+      enemyPosition.y = Math.floor(Math.random() * maxY) + minY
+      enemyPosition.x = width - heroRadius - 10 * pixelRatio
+      console.log(playerPosition, enemyPosition)
     }
 
-    const player = new Hero({ x: playerX, y: playerY }, playerSettings, 10)
-    const enemy = new Hero({ x: enemyX, y: enemyY }, enemySettings, -10)
+    const player = new Hero(playerPosition, playerSettings, 10, heroRadius)
+    const enemy = new Hero(enemyPosition, enemySettings, -10, heroRadius)
 
     canvas?.addEventListener('mousemove', (e) => {
       e.preventDefault()
       if (rect) {
-        const x = e.clientX - rect.left
-        const y = e.clientY - rect.top
+        const x = (e.clientX - rect.left) * pixelRatio
+        const y = (e.clientY - rect.top) * pixelRatio
         player.mousePosition = { x, y }
       }
     })
@@ -56,9 +58,9 @@ export const GameBoard: React.FC<GameBoardProps> = ({ isGameStarted, playerSetti
       animationIDRef.current = window.requestAnimationFrame(renderer)
 
       if (ctx) {
-        ctx.clearRect(0, 0, width!, height!)
-        player.update(ctx, height!)
-        enemy.update(ctx, height!)
+        ctx.clearRect(0, 0, width, height)
+        player.update(ctx, height)
+        enemy.update(ctx, height)
 
         for (let i = player.projectiles.length - 1; i >= 0; i--) {
           const projectile = player.projectiles[i]
@@ -66,12 +68,12 @@ export const GameBoard: React.FC<GameBoardProps> = ({ isGameStarted, playerSetti
           const xDiff = enemy.position.x - projectile.position.x
           const yDiff = enemy.position.y - projectile.position.y
           const distance = Math.hypot(xDiff, yDiff)
-          if (distance < 30 + projectile.radius) {
+          if (distance < heroRadius + projectile.radius) {
             player.projectiles.splice(i, 1)
             dispatch(increasePlayerScore())
           }
 
-          if (projectile.position.x > height!) {
+          if (projectile.position.x > width) {
             player.projectiles.splice(i, 1)
           }
         }
@@ -82,7 +84,7 @@ export const GameBoard: React.FC<GameBoardProps> = ({ isGameStarted, playerSetti
           const xDiff = player.position.x - projectile.position.x
           const yDiff = player.position.y - projectile.position.y
           const distance = Math.hypot(xDiff, yDiff)
-          if (distance < 30 + projectile.radius) {
+          if (distance < heroRadius + projectile.radius) {
             enemy.projectiles.splice(i, 1)
             dispatch(increaseEnemyScore())
           }
@@ -98,8 +100,8 @@ export const GameBoard: React.FC<GameBoardProps> = ({ isGameStarted, playerSetti
 
   const handleClick = (event: React.MouseEvent<HTMLCanvasElement>): void => {
     const rect = event.currentTarget.getBoundingClientRect()
-    const x = event.clientX - rect.left
-    const y = event.clientY - rect.top
+    const x = (event.clientX - rect.left) * pixelRatio
+    const y = (event.clientY - rect.top) * pixelRatio
     setMouseClickCoords({ x, y })
   }
 
@@ -107,8 +109,8 @@ export const GameBoard: React.FC<GameBoardProps> = ({ isGameStarted, playerSetti
     const canvas = canvasRef.current
     const ctx = canvas?.getContext('2d')
 
-    const player = new Hero({ x: 40, y: height / 2 }, playerSettings, 10)
-    const enemy = new Hero({ x: width - 40, y: height / 2 }, enemySettings, -10)
+    const player = new Hero({ x: heroRadius + 10, y: height / 2 }, playerSettings, 10, heroRadius)
+    const enemy = new Hero({ x: width - heroRadius - 10, y: height / 2 }, enemySettings, -10, heroRadius)
 
     if (ctx) {
       player.draw(ctx)
@@ -120,14 +122,16 @@ export const GameBoard: React.FC<GameBoardProps> = ({ isGameStarted, playerSetti
     if (enemy.click(mouseClickCoords.x, mouseClickCoords.y) && !isGameStarted) {
       dispatch(setEnemyMenuOpen())
     }
-  }, [playerSettings, enemySettings, width, height, mouseClickCoords, isGameStarted, dispatch])
+  }, [mouseClickCoords, isGameStarted, playerSettings, enemySettings, dispatch, heroRadius, width, height])
+
   return (
-    <div className='game-board' ref={boardRef}>
+    <div className='game-container'>
       <canvas
         width={width}
         height={height}
         ref={canvasRef}
         className='game-board__canvas'
+        style={{ width: canvasWidth, height: canvasHeight }}
         onClick={isGameStarted ? () => null : (e) => handleClick(e)}
       />
       <div className='game-board__buttons'>
@@ -143,7 +147,7 @@ export const GameBoard: React.FC<GameBoardProps> = ({ isGameStarted, playerSetti
         style={{
           display: isGameStarted ? 'none' : 'block',
           position: 'absolute',
-          top: height! / 2,
+          top: height / 2,
           left: '50%',
           transform: 'translate(-50%, -50%)',
         }}
