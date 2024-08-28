@@ -1,9 +1,9 @@
 .game-score {
-  width: 800px;
+  width: 80%;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 40px;
+  margin: 0 auto;
 
   .player-score,
   .enemy-score {
@@ -11,5 +11,15 @@
     align-items: center;
     gap: 5px;
     font-size: 24px;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .game-score {
+    width: 100%;
+    .player-score,
+    .enemy-score {
+      font-size: 18px;
+    }
   }
 }

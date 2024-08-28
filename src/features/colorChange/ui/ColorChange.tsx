@@ -37,7 +37,11 @@ export const ColorChange: React.FC = () => {
       <h2>CHOOSE {isPlayerMenuOpen ? 'YOUR' : 'ENEMY'} COLOR</h2>
       <div>
         <h3>Hero color: </h3>
-        <select onChange={(e) => handleChangeColor(e)} defaultValue={isPlayerMenuOpen ? playerColor : enemyColor}>
+        <select
+          key={isPlayerMenuOpen ? playerColor : enemyColor}
+          onChange={(e) => handleChangeColor(e)}
+          defaultValue={isPlayerMenuOpen ? playerColor : enemyColor}
+        >
           <option value={Color.red}>Red</option>
           <option value={Color.green}>Green</option>
           <option value={Color.blue}>Blue</option>
@@ -48,7 +52,11 @@ export const ColorChange: React.FC = () => {
       </div>
       <div>
         <h3>Spell color: </h3>
-        <select onChange={(e) => handleChangeSpellColor(e)} defaultValue={isPlayerMenuOpen ? playerSpellColor : enemySpellColor}>
+        <select
+          key={isPlayerMenuOpen ? playerSpellColor : enemySpellColor}
+          onChange={(e) => handleChangeSpellColor(e)}
+          defaultValue={isPlayerMenuOpen ? playerSpellColor : enemySpellColor}
+        >
           <option value={Color.red}>Red</option>
           <option value={Color.green}>Green</option>
           <option value={Color.blue}>Blue</option>
