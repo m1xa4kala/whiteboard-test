@@ -67,7 +67,7 @@ export const HomePage: React.FC = () => {
       <div className='game-score-container'>{isGameStarted && <GameScore />}</div>
       <div className='game-board-container' style={containerStyles}>
         <div className='player-settings'>
-          <HeroSettings hero='player' speed={playerSpeed} fireRate={playerFireRate} />
+          {!isGameStarted && <HeroSettings hero='player' speed={playerSpeed} fireRate={playerFireRate} />}
         </div>
         <div className='game-board'>
           <GameBoard
@@ -88,9 +88,7 @@ export const HomePage: React.FC = () => {
             }}
           />
         </div>
-        <div className='enemy-settings'>
-          <HeroSettings hero='enemy' speed={enemySpeed} fireRate={enemyFireRate} />
-        </div>
+        <div className='enemy-settings'>{!isGameStarted && <HeroSettings hero='enemy' speed={enemySpeed} fireRate={enemyFireRate} />}</div>
       </div>
     </main>
   )
