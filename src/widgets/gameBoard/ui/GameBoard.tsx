@@ -112,15 +112,20 @@ export const GameBoard: React.FC<GameBoardProps> = ({ isGameStarted, playerSetti
     const player = new Hero({ x: heroRadius + 10, y: height / 2 }, playerSettings, 10, heroRadius)
     const enemy = new Hero({ x: width - heroRadius - 10, y: height / 2 }, enemySettings, -10, heroRadius)
 
+    player.mouseClickPosition = mouseClickCoords
+    enemy.mouseClickPosition = mouseClickCoords
+
     if (ctx) {
       player.draw(ctx)
       enemy.draw(ctx)
     }
-    if (player.click(mouseClickCoords.x, mouseClickCoords.y) && !isGameStarted) {
+    if (player.click() && !isGameStarted) {
       dispatch(setPlayerMenuOpen())
+      setMouseClickCoords({ x: 0, y: 0 })
     }
-    if (enemy.click(mouseClickCoords.x, mouseClickCoords.y) && !isGameStarted) {
+    if (enemy.click() && !isGameStarted) {
       dispatch(setEnemyMenuOpen())
+      setMouseClickCoords({ x: 0, y: 0 })
     }
   }, [mouseClickCoords, isGameStarted, playerSettings, enemySettings, dispatch, heroRadius, width, height])
 

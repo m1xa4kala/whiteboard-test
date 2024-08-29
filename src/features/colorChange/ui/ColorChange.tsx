@@ -14,23 +14,29 @@ export const ColorChange: React.FC = () => {
   const enemyColor = useAppSelector((state) => state.heroColor.enemyColor)
   const enemySpellColor = useAppSelector((state) => state.heroColor.enemySpellColor)
 
-  const handleChangeColor = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    if (isPlayerMenuOpen) {
-      dispatch(setPlayerColor(event.target.value as Color))
-    }
-    if (isEnemyMenuOpen) {
-      dispatch(setEnemyColor(event.target.value as Color))
-    }
-  }
+  const handleChangeColor = React.useCallback(
+    (event: React.ChangeEvent<HTMLSelectElement>) => {
+      if (isPlayerMenuOpen) {
+        dispatch(setPlayerColor(event.target.value as Color))
+      }
+      if (isEnemyMenuOpen) {
+        dispatch(setEnemyColor(event.target.value as Color))
+      }
+    },
+    [dispatch, isEnemyMenuOpen, isPlayerMenuOpen]
+  )
 
-  const handleChangeSpellColor = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    if (isPlayerMenuOpen) {
-      dispatch(setPlayerSpellColor(event.target.value as Color))
-    }
-    if (isEnemyMenuOpen) {
-      dispatch(setEnemySpellColor(event.target.value as Color))
-    }
-  }
+  const handleChangeSpellColor = React.useCallback(
+    (event: React.ChangeEvent<HTMLSelectElement>) => {
+      if (isPlayerMenuOpen) {
+        dispatch(setPlayerSpellColor(event.target.value as Color))
+      }
+      if (isEnemyMenuOpen) {
+        dispatch(setEnemySpellColor(event.target.value as Color))
+      }
+    },
+    [dispatch, isEnemyMenuOpen, isPlayerMenuOpen]
+  )
 
   return (
     <div className='color-change' style={isPlayerMenuOpen || isEnemyMenuOpen ? { display: 'flex' } : { display: 'none' }}>
@@ -38,7 +44,8 @@ export const ColorChange: React.FC = () => {
       <div>
         <h3>Hero color: </h3>
         <select
-          key={isPlayerMenuOpen ? playerColor : enemyColor}
+          id='hero-color'
+          key={isPlayerMenuOpen ? `${playerColor + isPlayerMenuOpen}` : `${enemyColor + isPlayerMenuOpen}`}
           onChange={(e) => handleChangeColor(e)}
           defaultValue={isPlayerMenuOpen ? playerColor : enemyColor}
         >
@@ -53,6 +60,7 @@ export const ColorChange: React.FC = () => {
       <div>
         <h3>Spell color: </h3>
         <select
+          id='spell-color'
           key={isPlayerMenuOpen ? playerSpellColor : enemySpellColor}
           onChange={(e) => handleChangeSpellColor(e)}
           defaultValue={isPlayerMenuOpen ? playerSpellColor : enemySpellColor}
