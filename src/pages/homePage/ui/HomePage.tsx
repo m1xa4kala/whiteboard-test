@@ -3,8 +3,10 @@ import { GameBoard } from '@/widgets/gameBoard'
 import { GameScore } from '@/widgets/gameScore'
 import { HeroSettings } from '@/features/heroSettings'
 import { useAppSelector } from '@/shared/lib'
-import './HomePage.scss'
 import { useDebounce } from '@/shared/hooks'
+import { GameOver } from '@/features/gameOver'
+import './HomePage.scss'
+import { ChangeTargetScore } from '@/widgets/changeTargetScore'
 
 export const HomePage: React.FC = () => {
   const isGameStarted = useAppSelector((store) => store.gameBoard.isGameStarted)
@@ -57,7 +59,6 @@ export const HomePage: React.FC = () => {
     }
   }
   const debounce = useDebounce(resizeHandler, 200)
-
   React.useEffect(() => {
     window.addEventListener('resize', debounce)
   })
@@ -65,6 +66,7 @@ export const HomePage: React.FC = () => {
   return (
     <main className='home-page'>
       <div className='game-score-container'>{isGameStarted && <GameScore />}</div>
+      <div className='change-score-container'>{!isGameStarted && <ChangeTargetScore />}</div>
       <div className='game-board-container' style={containerStyles}>
         <div className='player-settings'>
           {!isGameStarted && <HeroSettings hero='player' speed={playerSpeed} fireRate={playerFireRate} />}
@@ -89,6 +91,7 @@ export const HomePage: React.FC = () => {
           />
         </div>
         <div className='enemy-settings'>{!isGameStarted && <HeroSettings hero='enemy' speed={enemySpeed} fireRate={enemyFireRate} />}</div>
+        <GameOver />
       </div>
     </main>
   )

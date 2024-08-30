@@ -1,0 +1,17 @@
+.button {
+  user-select: none;
+  padding: 10px 40px;
+  border-radius: 5px;
+  border: none;
+  background-color: #2173df;
+  color: #fff;
+  font-size: 20px;
+  cursor: pointer;
+}
+.button:hover {
+  background-color: darken(#2173df, 5%);
+}
+.button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
