@@ -23,7 +23,7 @@ export const GameBoard: React.FC<GameBoardProps> = ({ isGameStarted, playerSetti
   const pixelRatio = window.devicePixelRatio || 1
   const width = pixelRatio * canvasWidth
   const height = pixelRatio * canvasHeight
-  const heroRadius = canvasWidth > 800 ? 40 * pixelRatio : 20 * pixelRatio
+  const heroRadius = canvasWidth > 800 ? 60 * pixelRatio : 40 * pixelRatio
 
   const handleGameStart = () => {
     dispatch(setIsGameStarted(true))
@@ -33,8 +33,9 @@ export const GameBoard: React.FC<GameBoardProps> = ({ isGameStarted, playerSetti
     const playerPosition = { x: 0, y: 0 }
     const enemyPosition = { x: 0, y: 0 }
     if (width && height) {
-      const maxY = height - heroRadius - 10 * pixelRatio
+      const maxY = height - 2 * heroRadius - 10 * pixelRatio
       const minY = heroRadius + 10 * pixelRatio
+      console.log(maxY, minY)
       playerPosition.y = Math.floor(Math.random() * maxY) + minY
       playerPosition.x = heroRadius + 10 * pixelRatio
       enemyPosition.y = Math.floor(Math.random() * maxY) + minY
