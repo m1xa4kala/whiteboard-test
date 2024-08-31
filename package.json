@@ -2,7 +2,7 @@
   "homepage": "http://m1xa4kala.github.io/whiteboard-test",
   "name": "whiteboard-test",
   "private": true,
-  "version": "1.0.0",
+  "version": "1.1.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -11,8 +11,7 @@
     "prettier": "prettier --write ./src",
     "preview": "vite preview",
     "prepare": "husky",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist"
+    "predeploy": "npm run build"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.2.7",
@@ -34,7 +33,6 @@
     "eslint-plugin-prettier": "^5.2.1",
     "eslint-plugin-react-hooks": "^5.1.0-rc.0",
     "eslint-plugin-react-refresh": "^0.4.9",
-    "gh-pages": "^6.1.1",
     "globals": "^15.9.0",
     "husky": "^9.1.5",
     "lint-staged": "^15.2.9",
@@ -51,4 +49,3 @@
     ]
   }
 }
-
