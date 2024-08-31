@@ -4,9 +4,9 @@ import { useAppDispatch, useAppSelector } from '@/shared/lib'
 import { increaseEnemyScore, increasePlayerScore, setIsGameStarted } from '../model/gameBoardSlice'
 import { GameBoardProps } from '../model/types'
 import { Hero } from '../model/Hero'
+import { Button } from '@/shared/ui'
 
 import './GameBoard.scss'
-import { Button } from '@/shared/ui'
 
 export const GameBoard: React.FC<GameBoardProps> = ({ isGameStarted, playerSettings, enemySettings, canvasWidth, canvasHeight }) => {
   const dispatch = useAppDispatch()
@@ -40,12 +40,10 @@ export const GameBoard: React.FC<GameBoardProps> = ({ isGameStarted, playerSetti
       if (width && height) {
         const maxY = height - 2 * heroRadius - 10 * pixelRatio
         const minY = heroRadius + 10 * pixelRatio
-        console.log(maxY, minY)
         playerPosition.y = Math.floor(Math.random() * maxY) + minY
         playerPosition.x = heroRadius + 10 * pixelRatio
         enemyPosition.y = Math.floor(Math.random() * maxY) + minY
         enemyPosition.x = width - heroRadius - 10 * pixelRatio
-        console.log(playerPosition, enemyPosition)
       }
 
       const player = new Hero(playerPosition, playerSettings, 10, heroRadius)
