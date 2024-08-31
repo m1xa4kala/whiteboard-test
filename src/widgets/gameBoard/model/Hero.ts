@@ -12,7 +12,7 @@ export class Hero {
   }
   heroRadius: number
   spellVelocity: number
-  spellSize: number
+  spellRadius: number
   spellIncrease: number
   projectiles: Spell[]
   mousePosition: { x: number; y: number }
@@ -22,7 +22,7 @@ export class Hero {
     this.heroSettings = heroSettings
     this.heroRadius = heroRadius
     this.spellVelocity = spellVelocity
-    this.spellSize = 6
+    this.spellRadius = 6
     this.spellIncrease = 0.5 * heroSettings.fireRate
     this.projectiles = []
     this.mousePosition = { x: 0, y: 0 }
@@ -37,11 +37,11 @@ export class Hero {
     ctx.stroke()
 
     ctx.beginPath()
-    ctx.arc(this.position.x, this.position.y, this.spellSize, 0, Math.PI * 2, true)
+    ctx.arc(this.position.x, this.position.y, this.spellRadius, 0, Math.PI * 2, true)
     ctx.lineWidth = 1
     ctx.fillStyle = this.heroSettings.spellColor
     ctx.fill()
-    const spell = new Spell({ x: this.position.x, y: this.position.y }, this.heroSettings.spellColor, this.spellVelocity)
+    const spell = new Spell({ x: this.position.x, y: this.position.y }, this.heroSettings.spellColor, this.spellVelocity, 8)
     this.projectiles.forEach(() => {
       spell.draw(ctx)
     })
@@ -54,13 +54,13 @@ export class Hero {
     }
     this.position.y += 1 * this.heroSettings.speed
 
-    if (this.spellSize >= 18 || this.spellSize <= 4) {
+    if (this.spellRadius >= 18 || this.spellRadius <= 4) {
       this.spellIncrease = -this.spellIncrease
     }
-    this.spellSize += this.spellIncrease
+    this.spellRadius += this.spellIncrease
 
-    if (this.spellSize <= 4) {
-      this.projectiles.push(new Spell({ x: this.position.x, y: this.position.y }, this.heroSettings.spellColor, this.spellVelocity))
+    if (this.spellRadius <= 4) {
+      this.projectiles.push(new Spell({ x: this.position.x, y: this.position.y }, this.heroSettings.spellColor, this.spellVelocity, 8))
     }
 
     const distance = Math.hypot(this.position.x - this.mousePosition.x, this.position.y - this.mousePosition.y)

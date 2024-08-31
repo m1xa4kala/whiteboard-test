@@ -6,11 +6,11 @@ export class Spell {
   velocity: number
   radius: number
 
-  constructor(position: { x: number; y: number }, color: Color, velocity: number) {
+  constructor(position: { x: number; y: number }, color: Color, velocity: number, radius: number) {
     this.position = { x: position.x, y: position.y }
     this.color = color
     this.velocity = velocity
-    this.radius = 4
+    this.radius = radius
   }
 
   draw(ctx: CanvasRenderingContext2D) {
